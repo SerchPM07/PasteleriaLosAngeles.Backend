@@ -1,0 +1,9 @@
+﻿global using NetTopologySuite.Geometries;
+global using PLA.Api.Entities.POCO;
+global using Microsoft.EntityFrameworkCore;
+global using PLA.Api.ApplicationBusinessRules.DTOs;
+global using PLA.Api.ApplicationBusinessRules.Interfaces.PortsInteractors.Pedidos;
+global using PLA.Api.ApplicationBusinessRules.Interfaces.PortsInteractors.Usuarios;
+global using PLA.Api.ApplicationBusinessRules.UseCases.Pedidos;
+global using PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
+global using PLA.Api.ApplicationBusinessRules.Interfaces.Cotrollers;

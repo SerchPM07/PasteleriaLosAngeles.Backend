@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
@@ -18,14 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApplicationBusinessRules\UseCases\" />
-    <Folder Include="ApplicationBusinessRules\PortsInteractors\" />
-    <Folder Include="EnterpriseBusinessRules\Entities\Repositories\" />
-    <Folder Include="EnterpriseBusinessRules\Entities\DTOs\" />
-    <Folder Include="EnterpriseBusinessRules\Entities\POCOs\" />
-    <Folder Include="InterfaceAdapters\Controllers\" />
     <Folder Include="InterfaceAdapters\Services\" />
-    <Folder Include="InterfaceAdapters\Repositories\" />
   </ItemGroup>
 
 </Project>

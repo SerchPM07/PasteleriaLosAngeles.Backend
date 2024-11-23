@@ -1,6 +1,5 @@
-﻿namespace PLA.Api.UI.IoC
+﻿namespace PLA.Api.UI.IoC;
+
+public class DependencyContainer
 {
-    public class DependencyContainer
-    {
-    }
 }
