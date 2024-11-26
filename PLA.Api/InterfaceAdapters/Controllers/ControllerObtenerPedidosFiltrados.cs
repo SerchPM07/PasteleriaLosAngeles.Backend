@@ -1,5 +1,4 @@
-﻿
-namespace PLA.Api.InterfaceAdapters.Controllers;
+﻿namespace PLA.Api.InterfaceAdapters.Controllers;
 
 public class ControllerObtenerPedidosFiltrados : IControllerObtenerPedidosFiltrados
 {

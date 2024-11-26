@@ -2,7 +2,7 @@
 
 public static class DependencyContainer
 {
-    public static IServiceCollection AddPLARepocitory(this IServiceCollection services, IConfiguration configuration, string connectionString)
+    public static IServiceCollection AddRepocitoryPLA(this IServiceCollection services, IConfiguration configuration, string connectionString)
     {
         services.AddDbContext<PasteleriaDbContext>(options =>
         {

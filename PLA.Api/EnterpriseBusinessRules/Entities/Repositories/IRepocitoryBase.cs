@@ -2,9 +2,7 @@
 
 public interface IRepocitoryBase<T>
 {
-    public ValueTask<T> Add(T parameter);
-    public ValueTask<T> Update(T parameter);
-    public ValueTask<T> Get(T parameter);
-
+    ValueTask<T> Add(T parameter);
+    ValueTask<T> Update(T parameter);
 }
 

@@ -7,3 +7,16 @@ global using PLA.Api.ApplicationBusinessRules.Interfaces.PortsInteractors.Usuari
 global using PLA.Api.ApplicationBusinessRules.UseCases.Pedidos;
 global using PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
 global using PLA.Api.ApplicationBusinessRules.Interfaces.Cotrollers;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using Microsoft.IdentityModel.Tokens;
+global using PLA.Api.ApplicationBusinessRules.Interfaces.Services;
+global using PLA.Api.EnterpriseBusinessRules.Entities.Repositories;
+global using Microsoft.OpenApi.Models;
+global using PLA.Api.InterfaceAdapters.Services;
+global using PLA.Api.ApplicationBusinessRules;
+global using PLA.Api.InterfaceAdapters.Controllers;
+global using PLA.Api.InterfaceAdapters.Repositories;
+global using PLA.Api.UI.Endpoints;
+global using PLA.Api.UI.IoC;

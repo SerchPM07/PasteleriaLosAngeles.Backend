@@ -2,7 +2,7 @@
 
 public static class DependencyContainer
 {
-    public static IServiceCollection AddControllerPLA(this IServiceCollection services)
+    public static IServiceCollection AddControllersPLA(this IServiceCollection services)
     {
         services.AddScoped<IControllerActualizarPedido, ControllerActualizarPedido>();
         services.AddScoped<IControllerActualizarUsuario, ControllerActualizarUsuario>();

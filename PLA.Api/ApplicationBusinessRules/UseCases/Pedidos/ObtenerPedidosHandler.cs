@@ -1,5 +1,4 @@
-﻿
-namespace PLA.Api.ApplicationBusinessRules.UseCases.Pedidos;
+﻿namespace PLA.Api.ApplicationBusinessRules.UseCases.Pedidos;
 
 public class ObtenerPedidosHandler : IObtenerPedidosInputPort
 {

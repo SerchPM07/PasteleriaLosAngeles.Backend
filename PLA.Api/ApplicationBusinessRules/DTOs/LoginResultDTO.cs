@@ -1,4 +1,5 @@
 ﻿namespace PLA.Api.ApplicationBusinessRules.DTOs;
+
 public class LoginResultDTO
 {
     public int Id { get; set; }

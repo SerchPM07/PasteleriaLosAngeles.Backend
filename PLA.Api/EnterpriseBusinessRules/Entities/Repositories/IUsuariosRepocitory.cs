@@ -2,5 +2,5 @@
 
 public interface IUsuariosRepocitory : IRepocitoryBase<Usuario>
 {
-
+    ValueTask<Usuario> GetUsuarioById(int id);
 }
