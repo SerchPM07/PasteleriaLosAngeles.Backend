@@ -4,5 +4,6 @@ public enum TipoAccionEnum
 {
     Registro = 1,
     Actualizacion = 2,
-    Obtencion = 3
+    Obtencion = 3,
+    ObtencionMasiva = 4
 }

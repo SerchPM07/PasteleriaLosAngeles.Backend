@@ -1,9 +1,51 @@
-﻿namespace PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
+﻿using System.Text.Json;
+
+namespace PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
 
 public class ActualizarUsuarioHandler : IActualizarUsuarioInputPort
 {
-    public ValueTask<(bool operacion, string mensaje)> Handler(UsuarioDTO usuario, int idUsuario)
+    private readonly IActividadesRepocitory _actividadesRepocitory;
+    private readonly IUsuariosRepocitory _usuariosRepocitory;
+
+    public ActualizarUsuarioHandler(IActividadesRepocitory actividadesRepocitory, IUsuariosRepocitory usuariosRepocitory) => 
+        (actividadesRepocitory, usuariosRepocitory) = (_actividadesRepocitory, _usuariosRepocitory);
+
+
+    public async ValueTask<(bool operacion, string mensaje)> Handler(UsuarioDTO usuario, int idUsuario)
     {
-        throw new NotImplementedException();
+        if (usuario.Nombre.IsNullOrEmpty() || usuario.ApellidoPaterno.IsNullOrEmpty() || usuario.ApellidoMaterno.IsNullOrEmpty()
+            || usuario.Password.IsNullOrEmpty() || usuario.Telefono == 0)
+            return (false, "Faltan campos obligatorios por capturar");
+
+        var passwordDesc = Crypto.DecryptStringAES(usuario.Password);
+        if (passwordDesc.IsNullOrEmpty())
+            return (false, "La contraseña no es valida");
+
+        var usuarioExiste = await _usuariosRepocitory.GetUsuarioById(usuario.Id);
+        if (usuarioExiste.IsNull())
+            return (false, "El usuario no existe, verifique la información");
+
+        var result = await _usuariosRepocitory.Update(new Usuario
+        {
+            Id = usuario.Id,
+            Nombre = usuario.Nombre,
+            ApellidoPaterno = usuario.ApellidoPaterno,
+            ApellidoMaterno = usuario.ApellidoMaterno,
+            Telefono = usuario.Telefono,
+            Password = usuario.Password,
+            FechaNacimiento = usuario.FechaNacimiento
+        });
+
+        await _actividadesRepocitory.Registrar(new RegistroActividad
+        {
+            IdTipoAccion = (byte)TipoAccionEnum.Actualizacion,
+            IdUsuario = idUsuario,
+            IdRegistro = result.Id,
+            NombreTabla = "Usuarios",
+            NuevoValor = JsonSerializer.Serialize(result),
+            AntiguoValor = JsonSerializer.Serialize(usuarioExiste),
+            FechaRegistro = DateTime.UtcNow
+        });
+        return (true, "Actualzacion exitosa");
     }
 }

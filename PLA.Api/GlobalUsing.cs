@@ -20,3 +20,5 @@ global using PLA.Api.InterfaceAdapters.Controllers;
 global using PLA.Api.InterfaceAdapters.Repositories;
 global using PLA.Api.UI.Endpoints;
 global using PLA.Api.UI.IoC;
+global using PLA.Api.ApplicationBusinessRules.Helpers;
+global using PLA.Api.ApplicationBusinessRules.Enums;

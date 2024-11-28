@@ -1,9 +1,54 @@
-﻿namespace PLA.Api.ApplicationBusinessRules.UseCases.Pedidos;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace PLA.Api.ApplicationBusinessRules.UseCases.Pedidos;
 
 public class ActualizarPedidoHandler : IActualizarPedidoInputPort
 {
-    public ValueTask<(bool estatusOperacion, string mensaje)> Handler(PedidoDTO pedido, int idUsuario)
+    private readonly IPedidosRepocitory _pedidosRepocitory;
+    private readonly IActividadesRepocitory _actividadesRepocitory;
+
+    public ActualizarPedidoHandler(IPedidosRepocitory pedidosRepocitory, IActividadesRepocitory actividadesRepocitory) =>
+        (_pedidosRepocitory, _actividadesRepocitory) = (pedidosRepocitory, actividadesRepocitory);
+
+    public async ValueTask<(bool estatusOperacion, string mensaje)> Handler(PedidoDTO pedido, int idUsuario)
     {
-        throw new NotImplementedException();
+        if (pedido.Id.Equals(0))
+            return (false, "El pedido no cuenta con identificador");
+
+        if (pedido.NombreCliente.IsNullOrEmpty() || pedido.Descripcion.IsNullOrEmpty()
+            || pedido.Presio.Equals(0) || pedido.Direccion.IsNullOrEmpty())
+            return (false, "Faltan campos obligatorios por capturar");
+
+        var existePedido = await _pedidosRepocitory.GetPedidoById(pedido.Id);
+        if (existePedido.IsNull())
+            return (false, "El registro no existe");
+
+        var result = await _pedidosRepocitory.Update(new Pedido
+        {
+            Id = pedido.Id,
+            IdUsuario = idUsuario,
+            NombreCliente = pedido.NombreCliente,
+            Comentario = pedido.Comentario,
+            Descripcion = pedido.Descripcion,
+            Presio = pedido.Presio,
+            Anticipo = pedido.Anticipo,
+            FechaEntrega = pedido.FechaEntrega,
+            Direccion = pedido.Direccion,
+            Ubicacio = pedido.Ubicacio
+        });
+
+        await _actividadesRepocitory.Registrar(new RegistroActividad
+        {
+            IdTipoAccion = (byte)TipoAccionEnum.Actualizacion,
+            IdUsuario = idUsuario,
+            IdRegistro = result.Id,
+            NombreTabla = "Pedidos",
+            AntiguoValor = JsonSerializer.Serialize(existePedido),
+            NuevoValor = JsonSerializer.Serialize(result),
+            FechaRegistro = DateTime.UtcNow
+        });
+
+        return (true, "Actualizacion exitosa");
     }
 }

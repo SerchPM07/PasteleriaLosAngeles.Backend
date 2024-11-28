@@ -1,9 +1,41 @@
-﻿namespace PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
+﻿using System.Text.Json;
+
+namespace PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
 
 public class ObtenerUsuarioHandler : IObtenerUsuarioInputPort
 {
-    public ValueTask<UsuarioDTO> Handler(int idUsuario)
+    private readonly IActividadesRepocitory _actividadesRepocitory;
+    private readonly IUsuariosRepocitory _usuariosRepocitory;
+
+    public ObtenerUsuarioHandler(IActividadesRepocitory actividadesRepocitory, ITokenService tokenService, IUsuariosRepocitory usuariosRepocitory) =>
+        (actividadesRepocitory, usuariosRepocitory) = (_actividadesRepocitory, _usuariosRepocitory);
+
+    public async ValueTask<UsuarioDTO> Handler(int idUsuario)
     {
-        throw new NotImplementedException();
+        if (idUsuario.Equals(0))
+            return null;
+
+        var usuario = await _usuariosRepocitory.GetUsuarioById(idUsuario);
+
+        await _actividadesRepocitory.Registrar(new RegistroActividad
+        {
+            IdTipoAccion = (byte)TipoAccionEnum.Obtencion,
+            IdUsuario = idUsuario,
+            IdRegistro = usuario.Id,
+            NombreTabla = "Usuarios",
+            NuevoValor = JsonSerializer.Serialize(usuario),
+            FechaRegistro = DateTime.UtcNow
+        });
+
+        return new UsuarioDTO 
+        {
+            Id = usuario.Id,
+            Nombre = usuario.Nombre,
+            ApellidoPaterno = usuario.ApellidoPaterno,
+            ApellidoMaterno = usuario.ApellidoMaterno,
+            Telefono = usuario.Telefono,
+            Password = usuario.Password,
+            FechaNacimiento = usuario.FechaNacimiento
+        };
     }
 }
