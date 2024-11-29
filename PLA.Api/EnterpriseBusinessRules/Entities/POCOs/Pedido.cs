@@ -11,6 +11,6 @@ public class Pedido
     public decimal? Anticipo { get; set; }
     public DateTime FechaEntrega { get; set; }
     public string Direccion { get; set; }
-    public Geometry Ubicacio { get; set; }
+    public Geometry Ubicacion { get; set; }
     public virtual Usuario IdUsuarioNavigation { get; set; }
 }

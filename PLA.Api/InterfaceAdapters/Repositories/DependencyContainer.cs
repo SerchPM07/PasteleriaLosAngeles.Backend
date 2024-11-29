@@ -11,6 +11,9 @@ public static class DependencyContainer
                 options.UseNetTopologySuite();
             });
         });
+        services.AddScoped<IActividadesRepocitory, ActividadesRepocitory>();
+        services.AddScoped<IPedidosRepocitory, PedidosRepocitory>();
+        services.AddScoped<IUsuariosRepocitory, UsuariosRepocitory>();
         return services;
     }
 }

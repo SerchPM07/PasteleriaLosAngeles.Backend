@@ -1,19 +1,15 @@
-﻿namespace PLA.Api.InterfaceAdapters.Repositories;
+﻿
+namespace PLA.Api.InterfaceAdapters.Repositories;
 
 public class ActividadesRepocitory : IActividadesRepocitory
 {
-    public ValueTask<RegistroActividad> Add(RegistroActividad parameter)
-    {
-        throw new NotImplementedException();
-    }
+    private readonly PasteleriaDbContext _db;
+    public ActividadesRepocitory(PasteleriaDbContext dbContext) => (_db) = (dbContext);
 
-    public ValueTask<RegistroActividad> Get(RegistroActividad parameter)
+    public async ValueTask<bool> Registrar(RegistroActividad registro)
     {
-        throw new NotImplementedException();
-    }
-
-    public ValueTask<RegistroActividad> Update(RegistroActividad parameter)
-    {
-        throw new NotImplementedException();
+        _db.Add(registro);
+        await _db.SaveChangesAsync();
+        return true;
     }
 }

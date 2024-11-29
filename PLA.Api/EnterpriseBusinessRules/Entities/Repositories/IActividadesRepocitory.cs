@@ -1,7 +1,10 @@
-﻿namespace PLA.Api.EnterpriseBusinessRules.Entities.Repositories;
+﻿using PLA.Api.ApplicationBusinessRules.Enums;
 
-public interface IActividadesRepocitory : IRepocitoryBase<RegistroActividad>
+namespace PLA.Api.EnterpriseBusinessRules.Entities.Repositories;
+
+public interface IActividadesRepocitory
 {
-    public ValueTask<RegistroActividad> Get(RegistroActividad registro);
+    public ValueTask<bool> Registrar(RegistroActividad registro);
+
 }
 
