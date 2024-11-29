@@ -1,4 +1,6 @@
-﻿namespace PLA.Api.UI.IoC;
+﻿using Microsoft.AspNetCore.Http.Json;
+
+namespace PLA.Api.UI.IoC;
 
 public static class DependencyContainer
 {
@@ -34,6 +36,7 @@ public static class DependencyContainer
         builder.Services.AddControllersPLA();
         builder.Services.AddRepocitoryPLA(builder.Configuration, "PLAConnection");
         builder.Services.AddAuthenticationToken(builder.Configuration);
+        builder.Services.Configure<JsonOptions>(o => o.SerializerOptions.IncludeFields = true);
         return builder.Build();
     }
 

@@ -9,16 +9,19 @@ public class LoginUsuarioHandler : ILoginUsuarioInputPort
     private readonly IUsuariosRepocitory _usuariosRepocitory;
 
     public LoginUsuarioHandler(IActividadesRepocitory actividadesRepocitory, ITokenService tokenService, IUsuariosRepocitory usuariosRepocitory) =>
-        (actividadesRepocitory, tokenService, usuariosRepocitory) = (_actividadesRepocitory, _tokenService, _usuariosRepocitory);
+        (_actividadesRepocitory, _tokenService, _usuariosRepocitory) = (actividadesRepocitory, tokenService, usuariosRepocitory);
 
     public async ValueTask<((bool estatusOperacion, string mensaje), LoginResultDTO loginResult)> Handler(UsuarioDTO usuario)
     {
-        if (usuario.Telefono.Equals(0) || usuario.Password.IsNullOrEmpty())
+        if (usuario.Telefono.IsNullOrEmpty() || usuario.Password.IsNullOrEmpty())
             return ((false, "Datos de acceso incompletos"), null);
 
         var usuarioExiste = await _usuariosRepocitory.GetUsuarioByTelefono(usuario.Telefono);
         if(usuarioExiste.IsNull())
             return ((false, "El usuario no existe"), null);
+
+        if (usuarioExiste.Password != usuario.Password)
+            return ((false, "La contraseña no es valida"), null);
 
         await _actividadesRepocitory.Registrar(new RegistroActividad
         {

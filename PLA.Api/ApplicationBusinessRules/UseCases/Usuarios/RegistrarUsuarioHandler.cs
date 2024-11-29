@@ -10,13 +10,17 @@ public class RegistrarUsuarioHandler : IRegistrarUsuarioInputPort
     private readonly IUsuariosRepocitory _usuariosRepocitory;
 
     public RegistrarUsuarioHandler(IActividadesRepocitory actividadesRepocitory, ITokenService tokenService, IUsuariosRepocitory usuariosRepocitory) =>
-        (actividadesRepocitory , tokenService, usuariosRepocitory) = (_actividadesRepocitory, _tokenService, _usuariosRepocitory);
+        (_actividadesRepocitory , _tokenService, _usuariosRepocitory) = (actividadesRepocitory, tokenService, usuariosRepocitory);
 
     public async ValueTask<((bool estatusOperacion, string mensaje), LoginResultDTO loginResult)> Handler(UsuarioDTO usuario)
     {
         if (usuario.Nombre.IsNullOrEmpty() || usuario.ApellidoPaterno.IsNullOrEmpty() || usuario.ApellidoMaterno.IsNullOrEmpty()
-                    || usuario.Password.IsNullOrEmpty() || usuario.Telefono == 0)
+                    || usuario.Password.IsNullOrEmpty() || usuario.Telefono.IsNullOrEmpty())
             return ((false, "Faltan campos obligatorios por capturar"), null);
+
+        var passwordDesc = Crypto.DecryptStringAES(usuario.Password);
+        if (passwordDesc.IsNullOrEmpty())
+            return ((false, "La contraseña no es valida"), null );
 
         var result = await _usuariosRepocitory.Add(new Usuario
         {
@@ -24,7 +28,7 @@ public class RegistrarUsuarioHandler : IRegistrarUsuarioInputPort
             ApellidoPaterno = usuario.ApellidoPaterno,
             ApellidoMaterno = usuario.ApellidoMaterno,
             Telefono = usuario.Telefono,
-            Password = Crypto.EncryptStringAES(usuario.Password),
+            Password = usuario.Password,
             FechaNacimiento = usuario.FechaNacimiento
         });
 

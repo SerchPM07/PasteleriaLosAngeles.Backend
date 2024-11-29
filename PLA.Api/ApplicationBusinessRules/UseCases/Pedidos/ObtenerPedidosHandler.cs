@@ -12,7 +12,9 @@ public class ObtenerPedidosHandler : IObtenerPedidosInputPort
 
     public async ValueTask<List<PedidoDTO>> Handler(DateTime dateTimeStart, DateTime dateTimeEnd, int idUsuario)
     {
-        var pedidos = await _pedidosRepocitory.GetPedidosByDateTime(dateTimeStart, dateTimeEnd);
+        var pedidos = await _pedidosRepocitory.GetPedidosByDateTime(dateTimeStart, dateTimeEnd);        
+        if (pedidos.IsNullOrEmpty())
+            return null;
 
         await _actividadesRepocitory.Registrar(new RegistroActividad
         {
@@ -35,7 +37,7 @@ public class ObtenerPedidosHandler : IObtenerPedidosInputPort
             Anticipo = s.Anticipo,
             FechaEntrega = s.FechaEntrega,
             Direccion = s.Direccion,
-            Ubicacio = s.Ubicacio
+            Ubicacion = (0, 0)
         }).ToList();
     }
 }

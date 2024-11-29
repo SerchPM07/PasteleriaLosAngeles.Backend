@@ -8,7 +8,7 @@ public class ObtenerUsuarioHandler : IObtenerUsuarioInputPort
     private readonly IUsuariosRepocitory _usuariosRepocitory;
 
     public ObtenerUsuarioHandler(IActividadesRepocitory actividadesRepocitory, ITokenService tokenService, IUsuariosRepocitory usuariosRepocitory) =>
-        (actividadesRepocitory, usuariosRepocitory) = (_actividadesRepocitory, _usuariosRepocitory);
+        (_actividadesRepocitory, _usuariosRepocitory) = (actividadesRepocitory, usuariosRepocitory);
 
     public async ValueTask<UsuarioDTO> Handler(int idUsuario)
     {
@@ -16,6 +16,8 @@ public class ObtenerUsuarioHandler : IObtenerUsuarioInputPort
             return null;
 
         var usuario = await _usuariosRepocitory.GetUsuarioById(idUsuario);
+        if (usuario.IsNull())
+            return null;
 
         await _actividadesRepocitory.Registrar(new RegistroActividad
         {

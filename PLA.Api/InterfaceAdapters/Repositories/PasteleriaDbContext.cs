@@ -29,7 +29,7 @@ public partial class PasteleriaDbContext : DbContext
                 .HasMaxLength(150)
                 .IsUnicode(false);
             entity.Property(e => e.Presio).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Ubicacio).HasColumnType("geometry");
+            entity.Property(e => e.Ubicacion);
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Pedidos)
                 .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -78,12 +78,15 @@ public partial class PasteleriaDbContext : DbContext
             entity.Property(e => e.ApellidoPaterno)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.FechaNacimiento).HasColumnType("datetime");
+            entity.Property(e => e.FechaNacimiento).HasColumnType("date");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Password)
-                .HasMaxLength(50)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.Telefono)
+                .HasMaxLength(15)
                 .IsUnicode(false);
         });
 

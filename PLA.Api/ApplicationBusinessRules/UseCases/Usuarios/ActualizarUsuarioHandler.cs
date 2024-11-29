@@ -8,13 +8,13 @@ public class ActualizarUsuarioHandler : IActualizarUsuarioInputPort
     private readonly IUsuariosRepocitory _usuariosRepocitory;
 
     public ActualizarUsuarioHandler(IActividadesRepocitory actividadesRepocitory, IUsuariosRepocitory usuariosRepocitory) => 
-        (actividadesRepocitory, usuariosRepocitory) = (_actividadesRepocitory, _usuariosRepocitory);
+        (_actividadesRepocitory, _usuariosRepocitory) = (actividadesRepocitory, usuariosRepocitory);
 
 
     public async ValueTask<(bool operacion, string mensaje)> Handler(UsuarioDTO usuario, int idUsuario)
     {
         if (usuario.Nombre.IsNullOrEmpty() || usuario.ApellidoPaterno.IsNullOrEmpty() || usuario.ApellidoMaterno.IsNullOrEmpty()
-            || usuario.Password.IsNullOrEmpty() || usuario.Telefono == 0)
+            || usuario.Password.IsNullOrEmpty() || usuario.Telefono.IsNullOrEmpty())
             return (false, "Faltan campos obligatorios por capturar");
 
         var passwordDesc = Crypto.DecryptStringAES(usuario.Password);
@@ -24,6 +24,10 @@ public class ActualizarUsuarioHandler : IActualizarUsuarioInputPort
         var usuarioExiste = await _usuariosRepocitory.GetUsuarioById(usuario.Id);
         if (usuarioExiste.IsNull())
             return (false, "El usuario no existe, verifique la información");
+
+        var usurioValidar = await _usuariosRepocitory.GetUsuarioByTelefono(usuario.Telefono);
+        if (usurioValidar.IsNotNull() && usuario.Id != usurioValidar.Id)
+            return (false, "El telefono a actualizar ya existe");
 
         var result = await _usuariosRepocitory.Update(new Usuario
         {

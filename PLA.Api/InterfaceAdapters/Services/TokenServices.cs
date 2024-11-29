@@ -33,7 +33,7 @@ public class TokenServices : ITokenService
     {
         return
         [
-            new("userId", usuario.Id.ToString()),
+            new("userId", Crypto.EncryptStringAES(usuario.Id.ToString())),
             new("firstName", usuario.Nombre)
         ];
     }

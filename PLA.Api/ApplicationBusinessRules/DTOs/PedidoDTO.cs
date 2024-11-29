@@ -10,6 +10,6 @@ public class PedidoDTO
     public decimal? Anticipo { get; set; }
     public DateTime FechaEntrega { get; set; }
     public string Direccion { get; set; }
-    public Geometry Ubicacio { get; set; }
+    public (double latitud, double longitud) Ubicacion { get; set; }
 }
 

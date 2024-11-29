@@ -31,4 +31,13 @@ internal static class ExtencionMethods
     /// <returns></returns>
     public static bool IsNotNull<T>(this T elemento) =>
         elemento != null;
+
+    public static bool IsNullOrEmpty<T>(this List<T> elemento) =>
+        elemento == null || elemento.Count == 0;
+
+    public static int GetValueClaim(this ClaimsPrincipal claims, string nameClaim)
+    {
+        var usuarioClaimId = claims.Claims.FirstOrDefault(f => f.Type == nameClaim).Value;
+        return int.Parse(Crypto.DecryptStringAES(usuarioClaimId));
+    }
 }

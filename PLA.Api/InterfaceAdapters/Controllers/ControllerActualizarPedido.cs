@@ -2,8 +2,22 @@
 
 public class ControllerActualizarPedido : IControllerActualizarPedido
 {
-    public ValueTask<(int statusCode, string mensaje)> ActualizarPedido(PedidoDTO pedido, int idUsuario)
+    private readonly IActualizarPedidoInputPort _inputPort;
+
+    public ControllerActualizarPedido(IActualizarPedidoInputPort inputPort) =>
+        _inputPort = inputPort;
+    
+
+    public async ValueTask<(int statusCode, string mensaje)> ActualizarPedido(PedidoDTO pedido, int idUsuario)
     {
-        throw new NotImplementedException();
+        try
+        {
+            (bool estatusOperacion, string mensaje) = await _inputPort.Handler(pedido, idUsuario);
+            return (!estatusOperacion ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK, mensaje);
+        }
+        catch (Exception)
+        {
+            return (StatusCodes.Status500InternalServerError, "Error en el servidor");
+        }        
     }
 }

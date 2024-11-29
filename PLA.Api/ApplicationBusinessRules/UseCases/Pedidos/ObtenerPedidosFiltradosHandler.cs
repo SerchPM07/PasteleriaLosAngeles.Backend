@@ -17,6 +17,8 @@ public class ObtenerPedidosFiltradosHandler : IObtenerPedidosFiltradosInputPort
             return null;
 
         var pedidos = await _pedidosRepocitory.GetPedidosByFilter(filtrado);
+        if (pedidos.IsNullOrEmpty())
+            return null;
 
         await _actividadesRepocitory.Registrar(new RegistroActividad
         {
@@ -39,7 +41,7 @@ public class ObtenerPedidosFiltradosHandler : IObtenerPedidosFiltradosInputPort
             Anticipo = s.Anticipo,
             FechaEntrega = s.FechaEntrega,
             Direccion = s.Direccion,
-            Ubicacio = s.Ubicacio
+            Ubicacion = (0, 0)
         }).ToList();
     }
 }

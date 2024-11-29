@@ -16,10 +16,6 @@ public class RegistrarPedidoHandler : IRegistrarPedidoInputPort
                     || pedido.Presio.Equals(0) || pedido.Direccion.IsNullOrEmpty())
             return (false, "Faltan campos obligatorios por capturar");
 
-        var existePedido = await _pedidosRepocitory.GetPedidoById(pedido.Id);
-        if (existePedido.IsNull())
-            return (false, "El registro no existe");
-
         var result = await _pedidosRepocitory.Add(new Pedido
         {
             IdUsuario = idUsuario,
@@ -30,7 +26,7 @@ public class RegistrarPedidoHandler : IRegistrarPedidoInputPort
             Anticipo = pedido.Anticipo,
             FechaEntrega = pedido.FechaEntrega,
             Direccion = pedido.Direccion,
-            Ubicacio = pedido.Ubicacio
+            Ubicacion = null
         });
 
         await _actividadesRepocitory.Registrar(new RegistroActividad

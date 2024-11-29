@@ -16,6 +16,8 @@ public class ObtenerPedidoHandler : IObtenerPedidoInputPort
             return null;
 
         var pedido = await _pedidosRepocitory.GetPedidoById(idPedido);
+        if(pedido.IsNull())
+            return null;
 
         await _actividadesRepocitory.Registrar(new RegistroActividad
         {
@@ -38,7 +40,7 @@ public class ObtenerPedidoHandler : IObtenerPedidoInputPort
             Anticipo = pedido.Anticipo,
             FechaEntrega = pedido.FechaEntrega,
             Direccion = pedido.Direccion,
-            Ubicacio = pedido.Ubicacio
+            Ubicacion = (0, 0)
         };
     }
 }

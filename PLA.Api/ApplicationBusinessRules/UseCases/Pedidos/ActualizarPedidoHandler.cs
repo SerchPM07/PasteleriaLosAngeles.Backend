@@ -35,7 +35,7 @@ public class ActualizarPedidoHandler : IActualizarPedidoInputPort
             Anticipo = pedido.Anticipo,
             FechaEntrega = pedido.FechaEntrega,
             Direccion = pedido.Direccion,
-            Ubicacio = pedido.Ubicacio
+            Ubicacion = null
         });
 
         await _actividadesRepocitory.Registrar(new RegistroActividad

@@ -16,13 +16,13 @@ public class UsuariosRepocitory : IUsuariosRepocitory
     public async ValueTask<Usuario> GetUsuarioById(int id) =>
         await _db.Usuarios.FirstOrDefaultAsync(f => f.Id == id);
 
-    public async ValueTask<Usuario> GetUsuarioByTelefono(int telefono) =>
+    public async ValueTask<Usuario> GetUsuarioByTelefono(string telefono) =>
         await _db.Usuarios.FirstOrDefaultAsync(f => f.Telefono == telefono);
 
     public async ValueTask<Usuario> Update(Usuario usuario)
     {
         var usuarioTmp = await _db.Usuarios.FirstOrDefaultAsync(f => f.Id == usuario.Id);
-        if (usuarioTmp != null)
+        if (usuarioTmp.IsNull())
             return null;
 
         usuarioTmp.Nombre = usuario.Nombre;
