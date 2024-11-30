@@ -8,16 +8,26 @@ public class ControllerActualizarPedido : IControllerActualizarPedido
         _inputPort = inputPort;
     
 
-    public async ValueTask<(int statusCode, string mensaje)> ActualizarPedido(PedidoDTO pedido, int idUsuario)
+    public async ValueTask<(int statusCode, RespuestaGenericaDTO<string> respuesta)> ActualizarPedido(PedidoDTO pedido, int idUsuario)
     {
         try
         {
             (bool estatusOperacion, string mensaje) = await _inputPort.Handler(pedido, idUsuario);
-            return (!estatusOperacion ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK, mensaje);
+            return (!estatusOperacion ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK, new RespuestaGenericaDTO<string>
+            {
+                Mensaje = string.Empty,
+                Objeto = mensaje,
+                EstatusOperacion = estatusOperacion
+            });
         }
         catch (Exception)
         {
-            return (StatusCodes.Status500InternalServerError, "Error en el servidor");
+            return (StatusCodes.Status500InternalServerError, new RespuestaGenericaDTO<string>
+            {
+                Mensaje = "Ocurrio un error en el servidor",
+                Objeto = string.Empty,
+                EstatusOperacion = false
+            });
         }        
     }
 }

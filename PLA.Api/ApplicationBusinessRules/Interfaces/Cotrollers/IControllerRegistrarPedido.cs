@@ -2,5 +2,5 @@
 
 public interface IControllerRegistrarPedido
 {
-    ValueTask<(int statusCode, string mensaje)> RegistrarPedido(PedidoDTO pedido, int idUsuario);
+    ValueTask<(int statusCode, RespuestaGenericaDTO<string> respuesta)> RegistrarPedido(PedidoDTO pedido, int idUsuario);
 }

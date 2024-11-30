@@ -2,5 +2,5 @@
 
 public interface IControllerLoginUsuario
 {
-    ValueTask<(int statusCode, (LoginResultDTO loginResult, string mensaje))> LoginUsuario(UsuarioDTO usuario);
+    ValueTask<(int statusCode, RespuestaGenericaDTO<LoginResultDTO> respuesta)> LoginUsuario(UsuarioDTO usuario);
 }

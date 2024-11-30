@@ -11,33 +11,33 @@ internal static class PedidosEndpoints
         Group.MapPost("Pedido", async (IControllerRegistrarPedido controller, ClaimsPrincipal claims, PedidoDTO pedido) =>
         {
             
-            var (statusCode, mensaje) = await controller.RegistrarPedido(pedido, claims.GetValueClaim(NAME_CLAIM_ID));
-            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(mensaje) : Results.Ok(mensaje);
+            var (statusCode, respuesta) = await controller.RegistrarPedido(pedido, claims.GetValueClaim(NAME_CLAIM_ID));
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         });
 
         Group.MapPut("Pedido", async (IControllerActualizarPedido controller, ClaimsPrincipal claims, PedidoDTO pedido) =>
         {
-            var (statusCode, mensaje) = await controller.ActualizarPedido(pedido, claims.GetValueClaim(NAME_CLAIM_ID));
-            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(mensaje) : Results.Ok(mensaje);
+            var (statusCode, respuesta) = await controller.ActualizarPedido(pedido, claims.GetValueClaim(NAME_CLAIM_ID));
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         });
 
         Group.MapGet("Pedido", async (IControllerObtenerPedido controller, ClaimsPrincipal claims, long id) =>
         {
-            var (statusCode, pedido) = await controller.ObtenerPedido(id, claims.GetValueClaim(NAME_CLAIM_ID));
-            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(pedido) : Results.Ok(pedido);
+            var (statusCode, respuesta) = await controller.ObtenerPedido(id, claims.GetValueClaim(NAME_CLAIM_ID));
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         });
 
         Group.MapGet("Pedidos/", async (IControllerObtenerPedidos controller, ClaimsPrincipal claims, 
             DateTime dateTimeStart, DateTime dateTimeEnd) =>
         {
-            var (statusCode, pedidos) = await controller.ObtenerPedidos(dateTimeStart, dateTimeEnd, claims.GetValueClaim(NAME_CLAIM_ID));
-            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(pedidos) : Results.Ok(pedidos);
+            var (statusCode, respuesta) = await controller.ObtenerPedidos(dateTimeStart, dateTimeEnd, claims.GetValueClaim(NAME_CLAIM_ID));
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         });
 
         Group.MapGet("PedidosFiltro/", async (IControllerObtenerPedidosFiltrados controller, ClaimsPrincipal claims, string filtro) =>
         {
-            var (statusCode, pedidos) = await controller.ObtenerPedidosFiltrados(filtro, claims.GetValueClaim(NAME_CLAIM_ID));
-            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(pedidos) : Results.Ok(pedidos);
+            var (statusCode, respuesta) = await controller.ObtenerPedidosFiltrados(filtro, claims.GetValueClaim(NAME_CLAIM_ID));
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         });
         return app;
     }    

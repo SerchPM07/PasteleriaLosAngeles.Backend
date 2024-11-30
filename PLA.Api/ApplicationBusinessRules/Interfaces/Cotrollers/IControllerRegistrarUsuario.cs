@@ -2,5 +2,5 @@
 
 public interface IControllerRegistrarUsuario
 {
-    ValueTask<(int statusCode, LoginResultDTO loginResult)> RegistrarUsuario(UsuarioDTO usuario);
+    ValueTask<(int statusCode, RespuestaGenericaDTO<LoginResultDTO> respuesta)> RegistrarUsuario(UsuarioDTO usuario);
 }
