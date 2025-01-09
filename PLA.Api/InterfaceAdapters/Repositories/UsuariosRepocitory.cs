@@ -1,4 +1,5 @@
-﻿namespace PLA.Api.InterfaceAdapters.Repositories;
+﻿
+namespace PLA.Api.InterfaceAdapters.Repositories;
 
 public class UsuariosRepocitory : IUsuariosRepocitory
 {
@@ -12,6 +13,9 @@ public class UsuariosRepocitory : IUsuariosRepocitory
         await _db.SaveChangesAsync();
         return usuario;
     }
+
+    public async ValueTask<string> GetPassword(long idUsuario) =>
+        await _db.Usuarios.Where(f => f.Id == idUsuario).Select(s => s.Password).FirstOrDefaultAsync();
 
     public async ValueTask<Usuario> GetUsuarioById(int id) =>
         await _db.Usuarios.FirstOrDefaultAsync(f => f.Id == id);
@@ -33,5 +37,15 @@ public class UsuariosRepocitory : IUsuariosRepocitory
         usuarioTmp.Password = usuario.Password;
         await _db.SaveChangesAsync();
         return usuarioTmp;
+    }
+
+    public async ValueTask<bool> UpdatePassword(long idUsuario, PasswordDTO password)
+    {
+        var usuarioTmp = await _db.Usuarios.FirstOrDefaultAsync(f => f.Id == idUsuario);
+        if (usuarioTmp.IsNull())
+            return false;
+        usuarioTmp.Password = password.NewPassword;
+        await _db.SaveChangesAsync();
+        return true;
     }
 }

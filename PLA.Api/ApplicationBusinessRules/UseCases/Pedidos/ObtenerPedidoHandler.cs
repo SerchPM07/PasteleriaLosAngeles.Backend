@@ -40,6 +40,7 @@ public class ObtenerPedidoHandler : IObtenerPedidoInputPort
             Anticipo = pedido.Anticipo,
             FechaEntrega = pedido.FechaEntrega,
             Direccion = pedido.Direccion,
+            Estatus = pedido.Estatus,
             Ubicacion = (0, 0)
         };
     }

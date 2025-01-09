@@ -37,6 +37,7 @@ public class ObtenerPedidosHandler : IObtenerPedidosInputPort
             Anticipo = s.Anticipo,
             FechaEntrega = s.FechaEntrega,
             Direccion = s.Direccion,
+            Estatus = s.Estatus,
             Ubicacion = (0, 0)
         }).ToList();
     }

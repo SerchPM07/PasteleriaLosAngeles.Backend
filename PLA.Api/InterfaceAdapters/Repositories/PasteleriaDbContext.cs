@@ -24,6 +24,7 @@ public partial class PasteleriaDbContext : DbContext
             entity.Property(e => e.Comentario).IsUnicode(false);
             entity.Property(e => e.Descripcion).IsUnicode(false);
             entity.Property(e => e.Direccion).IsUnicode(false);
+            entity.Property(e => e.Estatus);
             entity.Property(e => e.FechaEntrega).HasColumnType("datetime");
             entity.Property(e => e.NombreCliente)
                 .HasMaxLength(150)

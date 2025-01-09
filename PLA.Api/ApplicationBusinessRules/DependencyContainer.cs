@@ -10,6 +10,7 @@ public static class DependencyContainer
         services.AddScoped<IObtenerPedidosFiltradosInputPort, ObtenerPedidosFiltradosHandler>();
         services.AddScoped<IRegistrarPedidoInputPort, RegistrarPedidoHandler>();
         services.AddScoped<IActualizarUsuarioInputPort, ActualizarUsuarioHandler>();
+        services.AddScoped<IActualizarPasswordInputPort, ActualizarPasswordHandler>();
         services.AddScoped<ILoginUsuarioInputPort, LoginUsuarioHandler>();
         services.AddScoped<IObtenerUsuarioInputPort, ObtenerUsuarioHandler>();
         services.AddScoped<IRegistrarUsuarioInputPort, RegistrarUsuarioHandler>();

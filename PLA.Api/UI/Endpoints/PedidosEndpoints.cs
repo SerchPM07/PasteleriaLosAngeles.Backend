@@ -9,8 +9,7 @@ internal static class PedidosEndpoints
         RouteGroupBuilder Group = app.MapGroup("Api/Pedidos").RequireAuthorization();
 
         Group.MapPost("Pedido", async (IControllerRegistrarPedido controller, ClaimsPrincipal claims, PedidoDTO pedido) =>
-        {
-            
+        {            
             var (statusCode, respuesta) = await controller.RegistrarPedido(pedido, claims.GetValueClaim(NAME_CLAIM_ID));
             return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         });

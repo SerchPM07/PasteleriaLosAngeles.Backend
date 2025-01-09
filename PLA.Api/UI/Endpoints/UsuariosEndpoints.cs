@@ -28,6 +28,12 @@ internal static class UsuariosEndpoints
             return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         }).RequireAuthorization();
 
+        Group.MapPut("Password", async (IControllerActualizarPassword controller, ClaimsPrincipal claims, PasswordDTO password) =>
+        {
+            var (statusCode, respuesta) = await controller.ActualizarPassword(password, claims.GetValueClaim(NAME_CLAIM_ID));
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
+        }).RequireAuthorization();
+
         Group.MapGet("Usuario", async (IControllerObtenerUsuario controller, int id) =>
         {
             var (statusCode, respuesta) = await controller.ObtenerUsuario(id);
