@@ -13,14 +13,14 @@ public class PedidosRepocitory : IPedidosRepocitory
     }
 
     public async ValueTask<Pedido> GetPedidoById(long id) =>
-        await _db.Pedidos.FirstOrDefaultAsync(f => f.Id == id);
+        await _db.Pedidos.Include(i => i.IdUsuarioNavigation).FirstOrDefaultAsync(f => f.Id == id);
 
     public async ValueTask<List<Pedido>> GetPedidosByDateTime(DateTime dateTimeStart, DateTime dateTimeEnd) =>
-        await _db.Pedidos.Where(w => w.FechaEntrega >= dateTimeStart.CleanDateTime(false) && w.FechaEntrega <= dateTimeEnd.CleanDateTime(true)).ToListAsync();
+        await _db.Pedidos.Where(w => w.FechaEntrega >= dateTimeStart.CleanDateTime(false) && w.FechaEntrega <= dateTimeEnd.CleanDateTime(true)).Include(i => i.IdUsuarioNavigation).ToListAsync();
 
 
     public async ValueTask<List<Pedido>> GetPedidosByFilter(string filter) =>
-        await _db.Pedidos.Where(w => w.NombreCliente.ToUpper().Contains(filter.ToUpper())).ToListAsync();
+        await _db.Pedidos.Where(w => w.NombreCliente.ToUpper().Contains(filter.ToUpper())).Include(i => i.IdUsuarioNavigation).ToListAsync();
 
     public async ValueTask<Pedido> Update(Pedido pedido)
     {

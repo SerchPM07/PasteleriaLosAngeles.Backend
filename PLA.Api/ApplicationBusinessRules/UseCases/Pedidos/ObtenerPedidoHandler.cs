@@ -19,20 +19,21 @@ public class ObtenerPedidoHandler : IObtenerPedidoInputPort
         if(pedido.IsNull())
             return null;
 
-        await _actividadesRepocitory.Registrar(new RegistroActividad
-        {
-            IdTipoAccion = (byte)TipoAccionEnum.Obtencion,
-            IdUsuario = idUsuario,
-            IdRegistro = pedido.Id,
-            NombreTabla = "Pedidos",
-            NuevoValor = JsonSerializer.Serialize(pedido),
-            AntiguoValor = JsonSerializer.Serialize(pedido),
-            FechaRegistro = DateTime.UtcNow
-        });
+        //await _actividadesRepocitory.Registrar(new RegistroActividad
+        //{
+        //    IdTipoAccion = (byte)TipoAccionEnum.Obtencion,
+        //    IdUsuario = idUsuario,
+        //    IdRegistro = pedido.Id,
+        //    NombreTabla = "Pedidos",
+        //    NuevoValor = JsonSerializer.Serialize(pedido),
+        //    AntiguoValor = JsonSerializer.Serialize(pedido),
+        //    FechaRegistro = DateTime.UtcNow
+        //});
 
         return new PedidoDTO
         {
             Id = pedido.Id,
+            NombreUsuario = $"{pedido.IdUsuarioNavigation.Nombre} {pedido.IdUsuarioNavigation.ApellidoPaterno} {pedido.IdUsuarioNavigation.ApellidoMaterno}",
             NombreCliente = pedido.NombreCliente,
             Comentario = pedido.Comentario,
             Descripcion = pedido.Descripcion,

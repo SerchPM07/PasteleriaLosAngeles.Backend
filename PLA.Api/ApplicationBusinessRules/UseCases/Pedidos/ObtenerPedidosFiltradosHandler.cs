@@ -20,20 +20,21 @@ public class ObtenerPedidosFiltradosHandler : IObtenerPedidosFiltradosInputPort
         if (pedidos.IsNullOrEmpty())
             return null;
 
-        await _actividadesRepocitory.Registrar(new RegistroActividad
-        {
-            IdTipoAccion = (byte)TipoAccionEnum.ObtencionMasiva,
-            IdUsuario = idUsuario,
-            IdRegistro = 0,
-            NombreTabla = "Pedidos",
-            AntiguoValor = JsonSerializer.Serialize(pedidos),
-            NuevoValor = JsonSerializer.Serialize(pedidos),
-            FechaRegistro = DateTime.UtcNow
-        });
+        //await _actividadesRepocitory.Registrar(new RegistroActividad
+        //{
+        //    IdTipoAccion = (byte)TipoAccionEnum.ObtencionMasiva,
+        //    IdUsuario = idUsuario,
+        //    IdRegistro = 0,
+        //    NombreTabla = "Pedidos",
+        //    AntiguoValor = JsonSerializer.Serialize(pedidos),
+        //    NuevoValor = JsonSerializer.Serialize(pedidos),
+        //    FechaRegistro = DateTime.UtcNow
+        //});
 
         return pedidos.Select(s => new PedidoDTO
         {
             Id = s.Id,
+            NombreUsuario = $"{s.IdUsuarioNavigation.Nombre} {s.IdUsuarioNavigation.ApellidoPaterno} {s.IdUsuarioNavigation.ApellidoMaterno}",
             NombreCliente = s.NombreCliente,
             Comentario = s.Comentario,
             Descripcion = s.Descripcion,
