@@ -10,7 +10,7 @@ namespace PLA.Api.ApplicationBusinessRules.Helpers
         /// <summary>
         ///Clave para encriptar y desencriptar cadenas
         /// </summary>
-        private const string SHARED_SECRET = "2O24@#C3p0MX";
+        private const string SHARED_SECRET = "2O25@#PL@MX";
 
         /// <summary>
         /// Encrypt the given string using AES.  The string can be decrypted using 
@@ -123,6 +123,6 @@ namespace PLA.Api.ApplicationBusinessRules.Helpers
             }
 
             return buffer;
-        }
+        }       
     }
 }

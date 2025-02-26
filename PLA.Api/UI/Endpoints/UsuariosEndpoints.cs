@@ -39,6 +39,9 @@ internal static class UsuariosEndpoints
             var (statusCode, respuesta) = await controller.ObtenerUsuario(id);
             return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         }).RequireAuthorization();
+
+        Group.MapGet("Ping", () => 
+            new RespuestaGenericaDTO<bool> { Objeto = true, Mensaje = "Token valido", EstatusOperacion = true}).RequireAuthorization();
         return app;
     }
 }

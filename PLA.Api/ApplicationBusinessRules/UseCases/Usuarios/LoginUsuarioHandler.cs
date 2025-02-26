@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
+using System.Text.Json;
 
 namespace PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
 
@@ -20,7 +21,7 @@ public class LoginUsuarioHandler : ILoginUsuarioInputPort
         if(usuarioExiste.IsNull())
             return ((false, "El usuario no existe"), null);
 
-        if (usuarioExiste.Password != usuario.Password)
+        if (Crypto.DecryptStringAES(usuarioExiste.Password) != Crypto.DecryptStringAES(usuario.Password))
             return ((false, "La contraseña no es valida"), null);
 
         await _actividadesRepocitory.Registrar(new RegistroActividad
