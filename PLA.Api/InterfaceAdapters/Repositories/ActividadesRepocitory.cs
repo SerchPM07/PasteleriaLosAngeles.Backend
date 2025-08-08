@@ -8,7 +8,7 @@ public class ActividadesRepocitory : IActividadesRepocitory
 
     public async ValueTask<bool> Registrar(RegistroActividad registro)
     {
-        _db.Add(registro);
+        _db.RegistroActividades.Add(registro);
         await _db.SaveChangesAsync();
         return true;
     }

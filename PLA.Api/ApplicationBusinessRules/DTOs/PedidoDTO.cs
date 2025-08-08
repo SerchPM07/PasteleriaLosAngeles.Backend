@@ -3,6 +3,7 @@
 public class PedidoDTO
 {
     public long Id { get; set; }
+    public int IdUsuario { get; set; }
     public string NombreUsuario { get; set; }
     public string NombreCliente { get; set; }
     public string Descripcion { get; set; }
