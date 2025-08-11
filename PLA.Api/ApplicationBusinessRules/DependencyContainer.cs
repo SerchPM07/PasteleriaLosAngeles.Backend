@@ -14,6 +14,7 @@ public static class DependencyContainer
         services.AddScoped<ILoginUsuarioInputPort, LoginUsuarioHandler>();
         services.AddScoped<IObtenerUsuarioInputPort, ObtenerUsuarioHandler>();
         services.AddScoped<IRegistrarUsuarioInputPort, RegistrarUsuarioHandler>();
+        services.AddScoped<IAutoLoginInputPort, AutoLoginHandler>();
         return services;
     }
 }

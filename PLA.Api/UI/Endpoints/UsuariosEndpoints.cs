@@ -10,7 +10,6 @@ internal static class UsuariosEndpoints
 
         Group.MapPost("Login", async (IControllerLoginUsuario controller, UsuarioDTO usuario) =>
         {
-
             var (statusCode, respuesta) = await controller.LoginUsuario(usuario);
             return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         });
@@ -42,6 +41,12 @@ internal static class UsuariosEndpoints
 
         Group.MapGet("Ping", () => 
             new RespuestaGenericaDTO<bool> { Objeto = true, Mensaje = "Token valido", EstatusOperacion = true}).RequireAuthorization();
+
+        Group.MapGet("AutoLogin", async (IControllerAutoLogin controller, ClaimsPrincipal claims) =>
+        {
+            var (statusCode, respuesta) = await controller.AutoLogin(claims.GetValueClaim(NAME_CLAIM_ID));
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
+        });
         return app;
     }
 }

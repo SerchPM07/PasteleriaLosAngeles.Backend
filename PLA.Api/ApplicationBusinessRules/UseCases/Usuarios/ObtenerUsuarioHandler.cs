@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
+﻿namespace PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
 
 public class ObtenerUsuarioHandler : IObtenerUsuarioInputPort
 {

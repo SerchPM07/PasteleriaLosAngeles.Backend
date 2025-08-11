@@ -14,6 +14,7 @@ public static class DependencyContainer
         services.AddScoped<IControllerObtenerUsuario, ControllerObtenerUsuario>();
         services.AddScoped<IControllerRegistrarPedido, ControllerRegistrarPedido>();
         services.AddScoped<IControllerRegistrarUsuario, ControllerRegistrarUsuario>();
+        services.AddScoped<IControllerAutoLogin, ControllerAutoLogin>();
         return services;
     }
 }
