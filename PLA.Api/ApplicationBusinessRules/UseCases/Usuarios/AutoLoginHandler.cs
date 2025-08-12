@@ -1,28 +1,21 @@
-﻿using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
-using System.Text.Json;
+﻿using PLA.Api.Entities.POCO;
 
 namespace PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
 
-public class LoginUsuarioHandler : ILoginUsuarioInputPort
+public class AutoLoginHandler : IAutoLoginInputPort
 {
     private readonly IActividadesRepocitory _actividadesRepocitory;
     private readonly ITokenService _tokenService;
     private readonly IUsuariosRepocitory _usuariosRepocitory;
 
-    public LoginUsuarioHandler(IActividadesRepocitory actividadesRepocitory, ITokenService tokenService, IUsuariosRepocitory usuariosRepocitory) =>
+    public AutoLoginHandler(IActividadesRepocitory actividadesRepocitory, ITokenService tokenService, IUsuariosRepocitory usuariosRepocitory) =>
         (_actividadesRepocitory, _tokenService, _usuariosRepocitory) = (actividadesRepocitory, tokenService, usuariosRepocitory);
 
-    public async ValueTask<((bool estatusOperacion, string mensaje), LoginResultDTO loginResult)> Handler(UsuarioDTO usuario)
+    public async ValueTask<((bool estatusOperacion, string mensaje), LoginResultDTO loginResult)> Handler(int idUsuario)
     {
-        if (usuario.Telefono.IsNullOrEmpty() || usuario.Password.IsNullOrEmpty())
-            return ((false, "Datos de acceso incompletos"), null);
-
-        var usuarioExiste = await _usuariosRepocitory.GetUsuarioByTelefono(usuario.Telefono);
-        if(usuarioExiste.IsNull())
+        var usuarioExiste = await _usuariosRepocitory.GetUsuarioById(idUsuario);
+        if (usuarioExiste.IsNull())
             return ((false, "El usuario no existe"), null);
-
-        if (Crypto.DecryptStringAES(usuarioExiste.Password) != Crypto.DecryptStringAES(usuario.Password))
-            return ((false, "La contraseña no es valida"), null);
 
         await _actividadesRepocitory.Registrar(new RegistroActividad
         {
@@ -34,9 +27,12 @@ public class LoginUsuarioHandler : ILoginUsuarioInputPort
             FechaRegistro = DateTime.UtcNow
         });
 
-        usuario.Id = usuarioExiste.Id;
-        usuario.Nombre = $"{usuarioExiste.Nombre} {usuarioExiste.ApellidoPaterno} {usuarioExiste.ApellidoMaterno}";
-        string token = await _tokenService.CreateToken(usuario);
+        string token = await _tokenService.CreateToken(new()
+        {
+            Id = usuarioExiste.Id,
+            Nombre = $"{usuarioExiste.Nombre} {usuarioExiste.ApellidoPaterno} {usuarioExiste.ApellidoMaterno}"
+        });
+
         return ((true, "Login exitoso"), new LoginResultDTO
         {
             Id = usuarioExiste.Id,
@@ -45,4 +41,3 @@ public class LoginUsuarioHandler : ILoginUsuarioInputPort
         });
     }
 }
-

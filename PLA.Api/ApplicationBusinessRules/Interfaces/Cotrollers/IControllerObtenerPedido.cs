@@ -2,5 +2,5 @@
 
 public interface IControllerObtenerPedido
 {
-    ValueTask<(int statusCode, PedidoDTO pedido)> ObtenerPedido(long idPedido, int idUsuario);
+    ValueTask<(int statusCode, RespuestaGenericaDTO<PedidoDTO> respuesta)> ObtenerPedido(long idPedido, int idUsuario);
 }

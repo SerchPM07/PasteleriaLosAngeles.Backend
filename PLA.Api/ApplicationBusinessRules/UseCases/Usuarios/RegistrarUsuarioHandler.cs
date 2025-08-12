@@ -18,6 +18,10 @@ public class RegistrarUsuarioHandler : IRegistrarUsuarioInputPort
                     || usuario.Password.IsNullOrEmpty() || usuario.Telefono.IsNullOrEmpty())
             return ((false, "Faltan campos obligatorios por capturar"), null);
 
+        var telefonoExiste = await _usuariosRepocitory.GetUsuarioByTelefono(usuario.Telefono);
+        if(telefonoExiste.IsNotNull())
+            return ((false, "El teléfono ya se encuentra registrado"), null);
+
         var passwordDesc = Crypto.DecryptStringAES(usuario.Password);
         if (passwordDesc.IsNullOrEmpty())
             return ((false, "La contraseña no es valida"), null );

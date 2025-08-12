@@ -9,16 +9,26 @@ public class ControllerObtenerPedidos : IControllerObtenerPedidos
     public ControllerObtenerPedidos(IObtenerPedidosInputPort inputPort) =>
         _inputPort = inputPort;
 
-    public async ValueTask<(int statusCode, List<PedidoDTO> pedidios)> ObtenerPedidos(DateTime dateTimeStart, DateTime dateTimeEnd, int idUsuario)
+    public async ValueTask<(int statusCode, RespuestaGenericaDTO<List<PedidoDTO>> respuesta)> ObtenerPedidos(DateTime dateTimeStart, DateTime dateTimeEnd, int idUsuario)
     {
         try
         {
-            var pedido = await _inputPort.Handler(dateTimeStart, dateTimeEnd, idUsuario);
-            return (pedido.IsNullOrEmpty() ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK, pedido);
+            var pedidos = await _inputPort.Handler(dateTimeStart, dateTimeEnd, idUsuario);
+            return (pedidos.IsNullOrEmpty() ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK, new RespuestaGenericaDTO<List<PedidoDTO>>
+            {
+                Mensaje = string.Empty,
+                Objeto = pedidos,
+                EstatusOperacion = true
+            });
         }
         catch (Exception)
         {
-            return (StatusCodes.Status500InternalServerError, null);
+            return (StatusCodes.Status500InternalServerError, new RespuestaGenericaDTO<List<PedidoDTO>>
+            {
+                Mensaje = "Ocurrio un error en el servidor",
+                Objeto = null,
+                EstatusOperacion = false
+            });
         }
     }
 }

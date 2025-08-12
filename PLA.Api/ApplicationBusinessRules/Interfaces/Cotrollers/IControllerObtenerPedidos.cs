@@ -2,5 +2,5 @@
 
 public interface IControllerObtenerPedidos
 {
-    ValueTask<(int statusCode, List<PedidoDTO> pedidios)> ObtenerPedidos(DateTime dateTimeStart, DateTime dateTimeEnd, int idUsuario);
+    ValueTask<(int statusCode, RespuestaGenericaDTO<List<PedidoDTO>> respuesta)> ObtenerPedidos(DateTime dateTimeStart, DateTime dateTimeEnd, int idUsuario);
 }

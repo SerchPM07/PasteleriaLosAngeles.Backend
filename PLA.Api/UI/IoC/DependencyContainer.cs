@@ -36,7 +36,7 @@ public static class DependencyContainer
         builder.Services.AddControllersPLA();
         builder.Services.AddRepocitoryPLA(builder.Configuration, "PLAConnection");
         builder.Services.AddAuthenticationToken(builder.Configuration);
-        builder.Services.Configure<JsonOptions>(o => o.SerializerOptions.IncludeFields = true);
+        //builder.Services.Configure<JsonOptions>(o => o.SerializerOptions.IncludeFields = true);
         return builder.Build();
     }
 
@@ -44,9 +44,11 @@ public static class DependencyContainer
     {
         if (app.Environment.IsDevelopment())
         {
+            app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        app.UseRouting();
         app.UseHttpsRedirection();
         app.UseUsuarioEndpoints();
         app.UsePedidosEndpoints();

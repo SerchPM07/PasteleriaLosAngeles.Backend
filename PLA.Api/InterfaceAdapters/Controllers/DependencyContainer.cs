@@ -6,6 +6,7 @@ public static class DependencyContainer
     {
         services.AddScoped<IControllerActualizarPedido, ControllerActualizarPedido>();
         services.AddScoped<IControllerActualizarUsuario, ControllerActualizarUsuario>();
+        services.AddScoped<IControllerActualizarPassword, ControllerActualizarPassword>();
         services.AddScoped<IControllerLoginUsuario, ControllerLoginUsuario>();
         services.AddScoped<IControllerObtenerPedido, ControllerObtenerPedido>();
         services.AddScoped<IControllerObtenerPedidos, ControllerObtenerPedidos>();
@@ -13,6 +14,7 @@ public static class DependencyContainer
         services.AddScoped<IControllerObtenerUsuario, ControllerObtenerUsuario>();
         services.AddScoped<IControllerRegistrarPedido, ControllerRegistrarPedido>();
         services.AddScoped<IControllerRegistrarUsuario, ControllerRegistrarUsuario>();
+        services.AddScoped<IControllerAutoLogin, ControllerAutoLogin>();
         return services;
     }
 }
