@@ -20,7 +20,7 @@ public class ActualizarPasswordHandler : IActualizarPasswordInputPort
         if (passwordTmp.IsNullOrEmpty())
             return (false, "El usuario no existe");
 
-        if(passwordTmp != password.Password)
+        if(Crypto.DecryptStringAES(passwordTmp) != Crypto.DecryptStringAES(password.Password))
             return (false, "La contraseña actual es incorrecta");
 
         var result = await _usuariosRepocitory.UpdatePassword(idUsuario, password);
