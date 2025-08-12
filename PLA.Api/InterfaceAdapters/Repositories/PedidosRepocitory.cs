@@ -61,6 +61,7 @@ public class PedidosRepocitory : IPedidosRepocitory
             Direccion = s.Direccion,
             Estatus = s.Estatus
         })
+        .OrderByDescending(O => O.FechaEntrega)
         .ToListAsync();
 
     public async ValueTask<List<PedidoDTO>> GetPedidosByFilter(string filter) =>
@@ -78,7 +79,9 @@ public class PedidosRepocitory : IPedidosRepocitory
             FechaEntrega = s.FechaEntrega,
             Direccion = s.Direccion,
             Estatus = s.Estatus
-        }).ToListAsync();
+        })
+        .OrderByDescending(O => O.FechaEntrega)
+        .ToListAsync();
 
     public async ValueTask<PedidoDTO> Update(PedidoDTO pedido)
     {
