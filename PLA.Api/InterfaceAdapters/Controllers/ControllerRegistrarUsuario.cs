@@ -6,16 +6,26 @@ public class ControllerRegistrarUsuario : IControllerRegistrarUsuario
     public ControllerRegistrarUsuario(ITokenService tokenService, IRegistrarUsuarioInputPort inputPort) =>
         _inputPort = inputPort;
 
-    public async ValueTask<(int statusCode, LoginResultDTO loginResult)> RegistrarUsuario(UsuarioDTO usuario)
+    public async ValueTask<(int statusCode, RespuestaGenericaDTO<LoginResultDTO> respuesta)> RegistrarUsuario(UsuarioDTO usuario)
     {
         try
         {
             ((bool estatusOperacion, string mensaje), LoginResultDTO loginResult) = await _inputPort.Handler(usuario);
-            return (!estatusOperacion ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK, loginResult);
+            return (!estatusOperacion ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK, new RespuestaGenericaDTO<LoginResultDTO>
+            {
+                Mensaje = mensaje,
+                Objeto = loginResult,
+                EstatusOperacion = estatusOperacion
+            });
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            return (StatusCodes.Status500InternalServerError, null);
+            return (StatusCodes.Status500InternalServerError, new RespuestaGenericaDTO<LoginResultDTO>
+            {
+                Mensaje = "Ocurrrio un error en el servidor",
+                Objeto = null,
+                EstatusOperacion = false
+            });
         }
     }
 }

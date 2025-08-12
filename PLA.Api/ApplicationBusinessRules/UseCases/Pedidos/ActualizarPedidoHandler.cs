@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace PLA.Api.ApplicationBusinessRules.UseCases.Pedidos;
+﻿namespace PLA.Api.ApplicationBusinessRules.UseCases.Pedidos;
 
 public class ActualizarPedidoHandler : IActualizarPedidoInputPort
 {
@@ -24,19 +21,7 @@ public class ActualizarPedidoHandler : IActualizarPedidoInputPort
         if (existePedido.IsNull())
             return (false, "El registro no existe");
 
-        var result = await _pedidosRepocitory.Update(new Pedido
-        {
-            Id = pedido.Id,
-            IdUsuario = idUsuario,
-            NombreCliente = pedido.NombreCliente,
-            Comentario = pedido.Comentario,
-            Descripcion = pedido.Descripcion,
-            Presio = pedido.Presio,
-            Anticipo = pedido.Anticipo,
-            FechaEntrega = pedido.FechaEntrega,
-            Direccion = pedido.Direccion,
-            Ubicacion = null
-        });
+        var result = await _pedidosRepocitory.Update(pedido);
 
         await _actividadesRepocitory.Registrar(new RegistroActividad
         {

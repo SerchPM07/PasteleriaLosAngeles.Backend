@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace PLA.Api.ApplicationBusinessRules.UseCases.Pedidos;
+﻿namespace PLA.Api.ApplicationBusinessRules.UseCases.Pedidos;
 
 public class ObtenerPedidoHandler : IObtenerPedidoInputPort
 {
@@ -19,28 +17,6 @@ public class ObtenerPedidoHandler : IObtenerPedidoInputPort
         if(pedido.IsNull())
             return null;
 
-        await _actividadesRepocitory.Registrar(new RegistroActividad
-        {
-            IdTipoAccion = (byte)TipoAccionEnum.Obtencion,
-            IdUsuario = idUsuario,
-            IdRegistro = pedido.Id,
-            NombreTabla = "Pedidos",
-            NuevoValor = JsonSerializer.Serialize(pedido),
-            AntiguoValor = JsonSerializer.Serialize(pedido),
-            FechaRegistro = DateTime.UtcNow
-        });
-
-        return new PedidoDTO
-        {
-            Id = pedido.Id,
-            NombreCliente = pedido.NombreCliente,
-            Comentario = pedido.Comentario,
-            Descripcion = pedido.Descripcion,
-            Presio = pedido.Presio,
-            Anticipo = pedido.Anticipo,
-            FechaEntrega = pedido.FechaEntrega,
-            Direccion = pedido.Direccion,
-            Ubicacion = (0, 0)
-        };
+        return pedido;
     }
 }

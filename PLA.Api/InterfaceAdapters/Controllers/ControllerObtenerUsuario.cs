@@ -6,12 +6,17 @@ public class ControllerObtenerUsuario : IControllerObtenerUsuario
     public ControllerObtenerUsuario(IObtenerUsuarioInputPort inputPort) =>
         _inputPort = inputPort;
 
-    public async ValueTask<(int statusCode, UsuarioDTO usuario)> ObtenerUsuario(int idUsuario)
+    public async ValueTask<(int statusCode, RespuestaGenericaDTO<UsuarioDTO> respuesta)> ObtenerUsuario(int idUsuario)
     {
 		try
 		{
             var usuario = await _inputPort.Handler(idUsuario);
-            return (usuario.IsNull() ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK, usuario);
+            return (usuario.IsNull() ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK, new RespuestaGenericaDTO<UsuarioDTO>
+            {
+                Mensaje = string.Empty,
+                Objeto = usuario,
+                EstatusOperacion = true
+            });
 		}
 		catch (Exception)
 		{

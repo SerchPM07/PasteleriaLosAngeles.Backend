@@ -2,5 +2,5 @@
 
 public interface IControllerActualizarUsuario
 {
-    ValueTask<(int statusCode, string mensaje)> ActualizarUsuario(UsuarioDTO usuario, int idUsuario);
+    ValueTask<(int statusCode, RespuestaGenericaDTO<string> respuesta)> ActualizarUsuario(UsuarioDTO usuario, int idUsuario);
 }

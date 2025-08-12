@@ -2,5 +2,5 @@
 
 public interface IControllerObtenerPedidosFiltrados
 {
-    ValueTask<(int statusCode, List<PedidoDTO> pedidos)> ObtenerPedidosFiltrados(string filtrado, int idUsuario);
+    ValueTask<(int statusCode, RespuestaGenericaDTO<List<PedidoDTO>> respuesta)> ObtenerPedidosFiltrados(string filtrado, int idUsuario);
 }

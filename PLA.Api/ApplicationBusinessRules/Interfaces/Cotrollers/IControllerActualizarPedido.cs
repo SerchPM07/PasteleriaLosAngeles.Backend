@@ -2,5 +2,5 @@
 
 public interface IControllerActualizarPedido
 {
-    ValueTask<(int statusCode, string mensaje)> ActualizarPedido(PedidoDTO pedido, int idUsuario);
+    ValueTask<(int statusCode, RespuestaGenericaDTO<string> respuesta)> ActualizarPedido(PedidoDTO pedido, int idUsuario);
 }

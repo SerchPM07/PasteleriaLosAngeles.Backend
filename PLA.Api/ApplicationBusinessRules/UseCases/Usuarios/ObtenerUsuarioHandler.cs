@@ -1,13 +1,11 @@
-﻿using System.Text.Json;
-
-namespace PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
+﻿namespace PLA.Api.ApplicationBusinessRules.UseCases.Usuarios;
 
 public class ObtenerUsuarioHandler : IObtenerUsuarioInputPort
 {
     private readonly IActividadesRepocitory _actividadesRepocitory;
     private readonly IUsuariosRepocitory _usuariosRepocitory;
 
-    public ObtenerUsuarioHandler(IActividadesRepocitory actividadesRepocitory, ITokenService tokenService, IUsuariosRepocitory usuariosRepocitory) =>
+    public ObtenerUsuarioHandler(IActividadesRepocitory actividadesRepocitory, IUsuariosRepocitory usuariosRepocitory) =>
         (_actividadesRepocitory, _usuariosRepocitory) = (actividadesRepocitory, usuariosRepocitory);
 
     public async ValueTask<UsuarioDTO> Handler(int idUsuario)

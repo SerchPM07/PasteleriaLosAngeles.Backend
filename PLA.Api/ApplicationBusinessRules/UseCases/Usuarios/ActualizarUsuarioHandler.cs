@@ -17,10 +17,6 @@ public class ActualizarUsuarioHandler : IActualizarUsuarioInputPort
             || usuario.Password.IsNullOrEmpty() || usuario.Telefono.IsNullOrEmpty())
             return (false, "Faltan campos obligatorios por capturar");
 
-        var passwordDesc = Crypto.DecryptStringAES(usuario.Password);
-        if (passwordDesc.IsNullOrEmpty())
-            return (false, "La contraseña no es valida");
-
         var usuarioExiste = await _usuariosRepocitory.GetUsuarioById(usuario.Id);
         if (usuarioExiste.IsNull())
             return (false, "El usuario no existe, verifique la información");

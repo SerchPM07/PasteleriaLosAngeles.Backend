@@ -2,5 +2,5 @@
 
 public interface IControllerObtenerUsuario
 {
-    ValueTask<(int statusCode, UsuarioDTO usuario)> ObtenerUsuario(int idUsuario);
+    ValueTask<(int statusCode, RespuestaGenericaDTO<UsuarioDTO> respuesta)> ObtenerUsuario(int idUsuario);
 }

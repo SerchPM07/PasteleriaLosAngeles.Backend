@@ -1,16 +1,16 @@
 ﻿namespace PLA.Api.InterfaceAdapters.Controllers;
 
-public class ControllerActualizarUsuario : IControllerActualizarUsuario
+public class ControllerActualizarPassword : IControllerActualizarPassword
 {
-    private readonly IActualizarUsuarioInputPort _inputPort;
-    public ControllerActualizarUsuario(IActualizarUsuarioInputPort inputPort) =>
+    private readonly IActualizarPasswordInputPort _inputPort;
+    public ControllerActualizarPassword(IActualizarPasswordInputPort inputPort) =>
         _inputPort = inputPort;
 
-    public async ValueTask<(int statusCode, RespuestaGenericaDTO<string> respuesta)> ActualizarUsuario(UsuarioDTO usuario, int idUsuario)
+    public async ValueTask<(int statusCode, RespuestaGenericaDTO<string> respuesta)> ActualizarPassword(PasswordDTO password, int idUsuario)
     {
         try
         {
-            (bool estatusOperacion, string mensaje) = await _inputPort.Handler(usuario, idUsuario);
+            (bool estatusOperacion, string mensaje) = await _inputPort.Handler(idUsuario, password);
             return (!estatusOperacion ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK, new RespuestaGenericaDTO<string>
             {
                 Mensaje = string.Empty,

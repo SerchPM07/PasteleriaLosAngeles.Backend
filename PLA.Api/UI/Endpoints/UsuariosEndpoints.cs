@@ -10,29 +10,43 @@ internal static class UsuariosEndpoints
 
         Group.MapPost("Login", async (IControllerLoginUsuario controller, UsuarioDTO usuario) =>
         {
-
-            var (statusCode, loginResult) = await controller.LoginUsuario(usuario);
-            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(loginResult) : Results.Ok(loginResult);
-        }).Produces<(LoginResultDTO, string)>();
+            var (statusCode, respuesta) = await controller.LoginUsuario(usuario);
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
+        });
 
         Group.MapPost("Usuario", async (IControllerRegistrarUsuario controller, UsuarioDTO usuario) =>
         {
 
-            var (statusCode, loginResult) = await controller.RegistrarUsuario(usuario);
-            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(loginResult) : Results.Ok(loginResult);
+            var (statusCode, respuesta) = await controller.RegistrarUsuario(usuario);
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         });
 
         Group.MapPut("Usuario", async (IControllerActualizarUsuario controller, ClaimsPrincipal claims, UsuarioDTO usuario) =>
         {
-            var (statusCode, mensaje) = await controller.ActualizarUsuario(usuario, claims.GetValueClaim(NAME_CLAIM_ID));
-            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(mensaje) : Results.Ok(mensaje);
+            var (statusCode, respuesta) = await controller.ActualizarUsuario(usuario, claims.GetValueClaim(NAME_CLAIM_ID));
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
+        }).RequireAuthorization();
+
+        Group.MapPut("Password", async (IControllerActualizarPassword controller, ClaimsPrincipal claims, PasswordDTO password) =>
+        {
+            var (statusCode, respuesta) = await controller.ActualizarPassword(password, claims.GetValueClaim(NAME_CLAIM_ID));
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         }).RequireAuthorization();
 
         Group.MapGet("Usuario", async (IControllerObtenerUsuario controller, int id) =>
         {
-            var (statusCode, usuario) = await controller.ObtenerUsuario(id);
-            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(usuario) : Results.Ok(usuario);
+            var (statusCode, respuesta) = await controller.ObtenerUsuario(id);
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         }).RequireAuthorization();
+
+        Group.MapGet("Ping", () => 
+            new RespuestaGenericaDTO<bool> { Objeto = true, Mensaje = "Token valido", EstatusOperacion = true}).RequireAuthorization();
+
+        Group.MapGet("AutoLogin", async (IControllerAutoLogin controller, ClaimsPrincipal claims) =>
+        {
+            var (statusCode, respuesta) = await controller.AutoLogin(claims.GetValueClaim(NAME_CLAIM_ID));
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
+        });
         return app;
     }
 }

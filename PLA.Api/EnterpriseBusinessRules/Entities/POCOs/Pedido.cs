@@ -12,5 +12,6 @@ public class Pedido
     public DateTime FechaEntrega { get; set; }
     public string Direccion { get; set; }
     public Geometry Ubicacion { get; set; }
+    public bool Estatus { get; set; }
     public virtual Usuario IdUsuarioNavigation { get; set; }
 }

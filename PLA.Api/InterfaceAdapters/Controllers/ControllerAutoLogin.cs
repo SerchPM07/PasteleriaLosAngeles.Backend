@@ -1,17 +1,19 @@
-﻿namespace PLA.Api.InterfaceAdapters.Controllers;
+﻿using PLA.Api.Entities.POCO;
 
-public class ControllerLoginUsuario : IControllerLoginUsuario
+namespace PLA.Api.InterfaceAdapters.Controllers;
+
+public class ControllerAutoLogin : IControllerAutoLogin
 {
-    private readonly ILoginUsuarioInputPort _inputPort;
+    private readonly IAutoLoginInputPort _inputPort;
 
-    public ControllerLoginUsuario(ILoginUsuarioInputPort inputPort) =>
+    public ControllerAutoLogin(IAutoLoginInputPort inputPort) =>
     _inputPort = inputPort;
 
-    public async ValueTask<(int statusCode, RespuestaGenericaDTO<LoginResultDTO> respuesta)> LoginUsuario(UsuarioDTO usuario)
+    public async ValueTask<(int statusCode, RespuestaGenericaDTO<LoginResultDTO> respuesta)> AutoLogin(int idUsuario)
     {
         try
         {
-            ((bool estatusOperacion, string mensaje), LoginResultDTO loginResult) = await _inputPort.Handler(usuario);
+            ((bool estatusOperacion, string mensaje), LoginResultDTO loginResult) = await _inputPort.Handler(idUsuario);
             return (!estatusOperacion ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK, new RespuestaGenericaDTO<LoginResultDTO>
             {
                 Mensaje = mensaje,
