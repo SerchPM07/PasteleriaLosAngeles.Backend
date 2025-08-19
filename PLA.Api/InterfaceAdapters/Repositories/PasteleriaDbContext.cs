@@ -36,6 +36,9 @@ public partial class PasteleriaDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(150)
                 .IsUnicode(false);
+            entity.Property(e => e.TelefonoCliente)
+               .HasMaxLength(15)
+               .IsUnicode(false);
             entity.Property(e => e.Presio).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Ubicacion);
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Pedidos)

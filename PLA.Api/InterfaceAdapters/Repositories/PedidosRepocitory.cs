@@ -1,6 +1,4 @@
-﻿using PLA.Api.Entities.POCO;
-
-namespace PLA.Api.InterfaceAdapters.Repositories;
+﻿namespace PLA.Api.InterfaceAdapters.Repositories;
 
 public class PedidosRepocitory : IPedidosRepocitory
 {
@@ -13,6 +11,7 @@ public class PedidosRepocitory : IPedidosRepocitory
         {
             IdUsuario = pedido.IdUsuario,
             NombreCliente = pedido.NombreCliente,
+            TelefonoCliente = pedido.TelefonoCliente,
             Comentario = pedido.Comentario,
             Descripcion = pedido.Descripcion,
             Presio = pedido.Presio,
@@ -41,6 +40,7 @@ public class PedidosRepocitory : IPedidosRepocitory
             Estatus = s.Estatus,
             FechaEntrega= s.FechaEntrega,
             NombreCliente= s.NombreCliente,
+            TelefonoCliente = s.TelefonoCliente,
             Presio = s.Presio
         })
         .FirstOrDefaultAsync(f => f.Id == id);
@@ -53,6 +53,7 @@ public class PedidosRepocitory : IPedidosRepocitory
             Id = s.Id,
             NombreUsuario = $"{s.IdUsuarioNavigation.Nombre} {s.IdUsuarioNavigation.ApellidoPaterno} {s.IdUsuarioNavigation.ApellidoMaterno}",
             NombreCliente = s.NombreCliente,
+            TelefonoCliente = s.TelefonoCliente,
             Comentario = s.Comentario,
             Descripcion = s.Descripcion,
             Presio = s.Presio,
@@ -72,6 +73,47 @@ public class PedidosRepocitory : IPedidosRepocitory
             Id = s.Id,
             NombreUsuario = $"{s.IdUsuarioNavigation.Nombre} {s.IdUsuarioNavigation.ApellidoPaterno} {s.IdUsuarioNavigation.ApellidoMaterno}",
             NombreCliente = s.NombreCliente,
+            TelefonoCliente = s.TelefonoCliente,
+            Comentario = s.Comentario,
+            Descripcion = s.Descripcion,
+            Presio = s.Presio,
+            Anticipo = s.Anticipo,
+            FechaEntrega = s.FechaEntrega,
+            Direccion = s.Direccion,
+            Estatus = s.Estatus
+        })
+        .OrderByDescending(O => O.FechaEntrega)
+        .ToListAsync();
+
+    public async ValueTask<List<PedidoDTO>> GetPedidosOfDay(DateTime day) =>
+        await _db.Pedidos.Where(w => w.FechaEntrega >= day.CleanDateTime(false) && w.FechaEntrega <= day.CleanDateTime(true))
+        .Include(i => i.IdUsuarioNavigation)
+        .Select(s => new PedidoDTO
+        {
+            Id = s.Id,
+            NombreUsuario = $"{s.IdUsuarioNavigation.Nombre} {s.IdUsuarioNavigation.ApellidoPaterno} {s.IdUsuarioNavigation.ApellidoMaterno}",
+            NombreCliente = s.NombreCliente,
+            TelefonoCliente = s.TelefonoCliente,
+            Comentario = s.Comentario,
+            Descripcion = s.Descripcion,
+            Presio = s.Presio,
+            Anticipo = s.Anticipo,
+            FechaEntrega = s.FechaEntrega,
+            Direccion = s.Direccion,
+            Estatus = s.Estatus
+        })
+        .OrderByDescending(O => O.FechaEntrega)
+        .ToListAsync();
+
+    public async ValueTask<List<PedidoDTO>> GetPedidosByEstatus(bool estatus) =>
+         await _db.Pedidos.Where(w => w.Estatus == estatus)
+        .Include(i => i.IdUsuarioNavigation)
+        .Select(s => new PedidoDTO
+        {
+            Id = s.Id,
+            NombreUsuario = $"{s.IdUsuarioNavigation.Nombre} {s.IdUsuarioNavigation.ApellidoPaterno} {s.IdUsuarioNavigation.ApellidoMaterno}",
+            NombreCliente = s.NombreCliente,
+            TelefonoCliente = s.TelefonoCliente,
             Comentario = s.Comentario,
             Descripcion = s.Descripcion,
             Presio = s.Presio,
@@ -87,6 +129,7 @@ public class PedidosRepocitory : IPedidosRepocitory
     {
         var pedidoTmp = await _db.Pedidos.FirstOrDefaultAsync(f => f.Id == pedido.Id);
         pedidoTmp.NombreCliente = pedido.NombreCliente;
+        pedidoTmp.TelefonoCliente = pedido.TelefonoCliente;
         pedidoTmp.Comentario = pedido.Comentario;
         pedidoTmp.Descripcion = pedido.Descripcion;
         pedidoTmp.Presio = pedido.Presio;

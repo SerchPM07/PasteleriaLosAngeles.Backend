@@ -5,6 +5,7 @@ public class Pedido
     public long Id { get; set; }
     public int IdUsuario { get; set; }
     public string NombreCliente { get; set; }
+    public string TelefonoCliente { get; set; }
     public string Descripcion { get; set; }
     public string Comentario { get; set; }
     public decimal Presio { get; set; }

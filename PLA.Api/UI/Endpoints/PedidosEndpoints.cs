@@ -38,6 +38,12 @@ internal static class PedidosEndpoints
             var (statusCode, respuesta) = await controller.ObtenerPedidosFiltrados(filtro, claims.GetValueClaim(NAME_CLAIM_ID));
             return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         });
+
+        Group.MapGet("PedidosByEstatus/", async (IControllerObtenerPedidosByEstatus controller, ClaimsPrincipal claims, bool estatus) =>
+        {
+            var (statusCode, respuesta) = await controller.ObtenerPedidosByEstatus(estatus, claims.GetValueClaim(NAME_CLAIM_ID));
+            return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
+        });
         return app;
     }    
 }
