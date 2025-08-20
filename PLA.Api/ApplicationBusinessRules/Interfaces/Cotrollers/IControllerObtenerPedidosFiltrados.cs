@@ -2,5 +2,5 @@
 
 public interface IControllerObtenerPedidosFiltrados
 {
-    ValueTask<(int statusCode, RespuestaGenericaDTO<List<PedidoDTO>> respuesta)> ObtenerPedidosFiltrados(string filtrado, int idUsuario);
+    ValueTask<(int statusCode, RespuestaGenericaDTO<List<PedidoByDay>> respuesta)> ObtenerPedidosFiltrados(string filtrado, bool estatus, int idUsuario);
 }

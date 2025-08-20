@@ -2,5 +2,5 @@
 
 public interface IControllerObtenerPedidosByEstatus
 {
-    ValueTask<(int statusCode, RespuestaGenericaDTO<List<PedidoDTO>> respuesta)> ObtenerPedidosByEstatus(bool estatus, int idUsuario);
+    ValueTask<(int statusCode, RespuestaGenericaDTO<List<PedidoByDay>> respuesta)> ObtenerPedidosByEstatus(bool estatus, int idUsuario);
 }

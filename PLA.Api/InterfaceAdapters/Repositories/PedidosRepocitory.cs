@@ -65,8 +65,8 @@ public class PedidosRepocitory : IPedidosRepocitory
         .OrderByDescending(O => O.FechaEntrega)
         .ToListAsync();
 
-    public async ValueTask<List<PedidoDTO>> GetPedidosByFilter(string filter) =>
-        await _db.Pedidos.Where(w => w.NombreCliente.ToUpper().Contains(filter.ToUpper()))
+    public async ValueTask<List<PedidoDTO>> GetPedidosByFilter(string filter, bool estatus) =>
+        await _db.Pedidos.Where(w => w.NombreCliente.ToUpper().Contains(filter.ToUpper()) && w.Estatus == estatus)
         .Include(i => i.IdUsuarioNavigation)
         .Select(s => new PedidoDTO
         {
@@ -82,7 +82,7 @@ public class PedidosRepocitory : IPedidosRepocitory
             Direccion = s.Direccion,
             Estatus = s.Estatus
         })
-        .OrderByDescending(O => O.FechaEntrega)
+        .OrderBy(O => O.FechaEntrega)
         .ToListAsync();
 
     public async ValueTask<List<PedidoDTO>> GetPedidosOfDay(DateTime day) =>
@@ -122,7 +122,7 @@ public class PedidosRepocitory : IPedidosRepocitory
             Direccion = s.Direccion,
             Estatus = s.Estatus
         })
-        .OrderByDescending(O => O.FechaEntrega)
+        .OrderBy(O => O.FechaEntrega)
         .ToListAsync();
 
     public async ValueTask<PedidoDTO> Update(PedidoDTO pedido)

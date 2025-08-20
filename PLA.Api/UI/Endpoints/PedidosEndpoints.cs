@@ -6,7 +6,7 @@ internal static class PedidosEndpoints
 
     internal static WebApplication UsePedidosEndpoints(this WebApplication app)
     {
-        RouteGroupBuilder Group = app.MapGroup("Api/Pedidos").RequireAuthorization();
+        RouteGroupBuilder Group = app.MapGroup("Api/Pedidos");
 
         Group.MapPost("Pedido", async (IControllerRegistrarPedido controller, ClaimsPrincipal claims, PedidoDTO pedido) =>
         {            
@@ -33,9 +33,9 @@ internal static class PedidosEndpoints
             return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         });
 
-        Group.MapGet("PedidosFiltro/", async (IControllerObtenerPedidosFiltrados controller, ClaimsPrincipal claims, string filtro) =>
+        Group.MapGet("PedidosFiltro/", async (IControllerObtenerPedidosFiltrados controller, ClaimsPrincipal claims, string filtro, bool estatus) =>
         {
-            var (statusCode, respuesta) = await controller.ObtenerPedidosFiltrados(filtro, claims.GetValueClaim(NAME_CLAIM_ID));
+            var (statusCode, respuesta) = await controller.ObtenerPedidosFiltrados(filtro, estatus, claims.GetValueClaim(NAME_CLAIM_ID));
             return statusCode != StatusCodes.Status200OK ? Results.BadRequest(respuesta) : Results.Ok(respuesta);
         });
 
